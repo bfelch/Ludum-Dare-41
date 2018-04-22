@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Creature : MonoBehaviour {
 
+	protected AudioSource audioSource;
+	public AudioClip damageClip;
+
 	public float speed = 1.0f;
-	public int maxHp = 100;
-	private int curHp = 0;
+	public int maxHp = 10;
+	protected int curHp = 0;
 
 	protected List<Verb> verbStack = new List<Verb>();
 	protected List<Item> itemStack = new List<Item>();
@@ -16,9 +19,15 @@ public class Creature : MonoBehaviour {
 
 	private Vector3 targetPosition = Vector3.zero;
 
+	public Item recommendedTool;
+	public Item givenItem;
+	public float dropRate;
+
 	// Use this for initialization
 	public virtual void Start () {
 		curHp = maxHp;
+
+		audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -109,5 +118,38 @@ public class Creature : MonoBehaviour {
 
 	protected bool CanDoVerb() {
 		return (verbStack.Count > 0 && verbCooldown <= 0);
+	}
+
+	public AudioSource GetAudioSource() {
+		return audioSource;
+	}
+
+	public void Damage(Item? equippedItem, Player player) {
+		if (equippedItem != null && equippedItem == recommendedTool) {
+			curHp -= maxHp;
+		} else {
+			curHp--;
+		}
+
+		audioSource.Play();
+
+		if (curHp <= 0 && player != null) {
+			if (Random.Range(0.0f, 1.0f) < dropRate) {
+				player.AddItem(givenItem);
+				SingletonFactory.GetInstance<ParserUtil>().PrintResponse("Added " + givenItem + " to inventory");
+				player.GetAudioSource().clip = SingletonFactory.GetInstance<PrefabUtil>().pickupClip;
+				player.GetAudioSource().Play();
+			}
+			
+			HideObject();
+			Invoke("DestroySelf", 1.0f);
+		}
+	}
+
+	private void HideObject() {
+		Renderer[] renderers = GetComponentsInChildren<Renderer>();
+		foreach (Renderer renderer in renderers) {
+			renderer.enabled = false;
+		}
 	}
 }

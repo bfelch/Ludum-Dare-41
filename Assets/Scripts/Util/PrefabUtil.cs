@@ -10,6 +10,7 @@ public class PrefabUtil : MonoBehaviour {
 	public GameObject pickaxePre;
 	public GameObject axePre;
 	public GameObject swordPre;
+	public GameObject potionPre;
 
 	public GameObject wallPre;
 	public GameObject fencePre;
@@ -21,6 +22,9 @@ public class PrefabUtil : MonoBehaviour {
 
 	private Dictionary<Item, GameObject> preLibrary = new Dictionary<Item, GameObject>();
 
+	public AudioClip pickupClip;
+	public AudioClip humanDeathClip;
+
 	public Sprite[] damageSprite;
 
 	// Use this for initialization
@@ -28,6 +32,7 @@ public class PrefabUtil : MonoBehaviour {
 		preLibrary[Item.PICKAXE] = pickaxePre;
 		preLibrary[Item.AXE] = axePre;
 		preLibrary[Item.SWORD] = swordPre;
+		preLibrary[Item.POTION] = potionPre;
 
 		preLibrary[Item.WALL] = wallPre;
 		preLibrary[Item.FENCE] = fencePre;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : Creature {
 
+	public RectTransform healthBarRect;
+	private int healthBarWidth = 192;
+
 	private Dictionary<Resource, int> resourceInventory = new Dictionary<Resource, int>();
 	private Dictionary<Item, int> itemInventory = new Dictionary<Item, int>();
 
@@ -25,6 +28,8 @@ public class Player : Creature {
 					break;
 			}
 		}
+
+		ShowHealth();
 	}
 
 	public void Use(Direction direction, int times) {
@@ -40,11 +45,37 @@ public class Player : Creature {
 
 		RaycastHit2D hit = GetBlockingObject(directionStack[0]);
 
+		if ((UsingTool() || UsingConsumable()) && equippedItem.HasValue) {
+			GameObject tool = SingletonFactory.GetInstance<PrefabUtil>().GetPrefab(equippedItem.Value);
+			if (tool != null) {
+				Vector3 offset = GetVectorFromDirection(directionStack[0]);
+				offset /= 2.0f;
+				offset.z -= 1.0f;
+
+				Instantiate(tool, transform.position + offset, Quaternion.identity);
+			}
+		}
+
+		if (UsingConsumable()) {
+			switch (equippedItem) {
+				case Item.POTION:
+					curHp += Mathf.FloorToInt(maxHp * 0.2f);
+					curHp = Mathf.Max(0, Mathf.Min(curHp, maxHp));
+					break;
+			}
+			RemoveItem(equippedItem.Value);
+		}
+
 		if (hit.collider != null) {
 			if (UsingTool()) {
 				Obstacle obstacle = hit.collider.gameObject.GetComponent<Obstacle>();
 				if (obstacle != null) {
 					obstacle.Damage(equippedItem, this);
+				} else {
+					Creature creature = hit.collider.gameObject.GetComponent<Creature>();
+					if (creature != null) {
+						creature.Damage(equippedItem, this);
+					}
 				}
 			} else if (UsingObstacle()) {
 				SingletonFactory.GetInstance<ParserUtil>().PrintResponse("Cannot place '" + equippedItem + "' to the " + directionStack[0]);
@@ -81,7 +112,7 @@ public class Player : Creature {
 		return resourceInventory[resource];
 	}
 
-	private void AddItem(Item item) {
+	public void AddItem(Item item) {
 		if (itemInventory.ContainsKey(item)) {
 			itemInventory[item]++;
 		} else {
@@ -229,5 +260,18 @@ public class Player : Creature {
 		}
 
 		return false;
+	}
+
+	private bool UsingConsumable() {
+		if (equippedItem == Item.POTION) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private void ShowHealth() {
+		float height = healthBarRect.sizeDelta.y;
+		healthBarRect.sizeDelta = new Vector2(healthBarWidth * (curHp * 0.1f), height);
 	}
 }

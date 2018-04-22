@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
 
+	private AudioSource audioSource;
+
 	public int maxHp = 3;
 	private int curHp = 0;
 
@@ -22,6 +24,8 @@ public class Obstacle : MonoBehaviour {
 
 		damageSprite.transform.SetParent(transform);
 		damageSprite.transform.localPosition = Vector3.back;
+
+		audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -36,12 +40,29 @@ public class Obstacle : MonoBehaviour {
 			curHp--;
 		}
 
+		audioSource.Play();
+
 		if (curHp <= 0 && player != null) {
 			player.AddResource(givenResource, resourceQuantity);
 			SingletonFactory.GetInstance<ParserUtil>().PrintResponse("Added " + resourceQuantity + " " + givenResource + " to inventory");
-			Destroy(this.gameObject);
+			player.GetAudioSource().clip = SingletonFactory.GetInstance<PrefabUtil>().pickupClip;
+			player.GetAudioSource().Play();
+			
+			HideObject();
+			Invoke("DestroySelf", 1.0f);
 		} else {
 			damageSprite.GetComponent<SpriteRenderer>().sprite = SingletonFactory.GetInstance<PrefabUtil>().damageSprite[maxHp - curHp - 1];
 		}
+	}
+
+	private void HideObject() {
+		Renderer[] renderers = GetComponentsInChildren<Renderer>();
+		foreach (Renderer renderer in renderers) {
+			renderer.enabled = false;
+		}
+	}
+
+	private void DestroySelf() {
+		Destroy(gameObject);
 	}
 }

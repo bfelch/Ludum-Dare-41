@@ -391,6 +391,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114377881337900740, guid: 9ea3ebd4a98d344d8b0656a863815e6d,
+        type: 2}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1371576159}
+    - target: {fileID: 114377881337900740, guid: 9ea3ebd4a98d344d8b0656a863815e6d,
+        type: 2}
+      propertyPath: healthBarRect
+      value: 
+      objectReference: {fileID: 1371576160}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9ea3ebd4a98d344d8b0656a863815e6d, type: 2}
   m_IsPrefabParent: 0
@@ -711,6 +721,74 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 072b3d52435324452893b00e1c5c58ab, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1371576159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1371576160}
+  - component: {fileID: 1371576162}
+  - component: {fileID: 1371576161}
+  m_Layer: 5
+  m_Name: Value
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1371576160
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1371576159}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1592265543}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 4, y: 0}
+  m_SizeDelta: {x: 192, y: 12}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &1371576161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1371576159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.29803923, g: 0.6862745, b: 0.3137255, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1371576162
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1371576159}
 --- !u!1 &1372990423
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,6 +947,75 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e3ef50cebcb864eb3b81046140c2be03, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1592265542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1592265543}
+  - component: {fileID: 1592265545}
+  - component: {fileID: 1592265544}
+  m_Layer: 5
+  m_Name: Healthbar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1592265543
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1592265542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1371576160}
+  m_Father: {fileID: 1978090743}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 20, y: -20}
+  m_SizeDelta: {x: 200, y: 20}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1592265544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1592265542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1592265545
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1592265542}
 --- !u!1 &1978090739
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +1104,7 @@ RectTransform:
   m_Children:
   - {fileID: 915859253}
   - {fileID: 441012438}
+  - {fileID: 1592265543}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1112,12 +1260,15 @@ MonoBehaviour:
   pickaxePre: {fileID: 1480896359781190, guid: 798ad182b2b6b4d7581c6a1c17e7bc58, type: 2}
   axePre: {fileID: 1934076189624964, guid: 138a3c87301224223b9a5fb9ba945005, type: 2}
   swordPre: {fileID: 1934550854561634, guid: fb866e4178b5d487cbb4cc1908207537, type: 2}
+  potionPre: {fileID: 1138649543444756, guid: 58de703567dbd4530b8f39f2609b6b16, type: 2}
   wallPre: {fileID: 1099692914163282, guid: 64aac4d4aa9cf4dcebf76024f6efb709, type: 2}
   fencePre: {fileID: 1324152586718814, guid: 07b97037a60774655ba82fb679f21fb7, type: 2}
   bonfirePre: {fileID: 1054986449703216, guid: d3a2585ab0870484ea29f760260033dd, type: 2}
   stonePre: {fileID: 1487062989553026, guid: ed15c503e881442128ac1d1b4ca376cd, type: 2}
   treePre: {fileID: 1989661152090798, guid: 072b3d52435324452893b00e1c5c58ab, type: 2}
   ironPre: {fileID: 1174954078712162, guid: e3ef50cebcb864eb3b81046140c2be03, type: 2}
+  pickupClip: {fileID: 8300000, guid: 4ba44655724c14a36be11f8ea360480e, type: 3}
+  humanDeathClip: {fileID: 8300000, guid: a105de4e0ded141cfbc9e41c9155d7e2, type: 3}
   damageSprite:
   - {fileID: 21300000, guid: 620335a58944e4ebe8f8e973ea5be8a7, type: 3}
   - {fileID: 21300000, guid: 98882336d1d1f45b68a5d5a1f8e0b2e3, type: 3}
