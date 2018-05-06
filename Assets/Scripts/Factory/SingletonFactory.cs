@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SingletonFactory : MonoBehaviour {
@@ -16,5 +17,13 @@ public class SingletonFactory : MonoBehaviour {
 		}
 
 		return (T)instances[typeof(T)];
+	}
+
+	public static void ClearInstances() {
+		System.Type[] keys = instances.Keys.ToArray();
+
+		foreach (System.Type key in keys) {
+			instances.Remove(key);
+		}
 	}
 }

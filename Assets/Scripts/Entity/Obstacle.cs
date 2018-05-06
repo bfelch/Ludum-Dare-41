@@ -5,6 +5,11 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour {
 
 	private AudioSource audioSource;
+	private bool isHidden = false;
+
+	public bool IsHidden {
+		get{ return isHidden; }
+	}
 
 	public int maxHp = 3;
 	private int curHp = 0;
@@ -42,11 +47,13 @@ public class Obstacle : MonoBehaviour {
 
 		audioSource.Play();
 
-		if (curHp <= 0 && player != null) {
-			player.AddResource(givenResource, resourceQuantity);
-			SingletonFactory.GetInstance<ParserUtil>().PrintResponse("Added " + resourceQuantity + " " + givenResource + " to inventory");
-			player.GetAudioSource().clip = SingletonFactory.GetInstance<PrefabUtil>().pickupClip;
-			player.GetAudioSource().Play();
+		if (curHp <= 0) {
+			if (player != null) {
+				player.AddResource(givenResource, resourceQuantity);
+				SingletonFactory.GetInstance<ParserUtil>().PrintResponse("Added " + resourceQuantity + " " + givenResource + " to inventory");
+				player.GetAudioSource().clip = SingletonFactory.GetInstance<PrefabUtil>().pickupClip;
+				player.GetAudioSource().Play();
+			}
 			
 			HideObject();
 			Invoke("DestroySelf", 1.0f);
@@ -55,7 +62,8 @@ public class Obstacle : MonoBehaviour {
 		}
 	}
 
-	private void HideObject() {
+	public void HideObject() {
+		isHidden = true;
 		Renderer[] renderers = GetComponentsInChildren<Renderer>();
 		foreach (Renderer renderer in renderers) {
 			renderer.enabled = false;

@@ -23,6 +23,7 @@ public class PrefabUtil : MonoBehaviour {
 	private Dictionary<Item, GameObject> preLibrary = new Dictionary<Item, GameObject>();
 
 	public AudioClip pickupClip;
+	public AudioClip humanDamageClip;
 	public AudioClip humanDeathClip;
 
 	public Sprite[] damageSprite;

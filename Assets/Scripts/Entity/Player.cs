@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : Creature {
 
@@ -21,13 +22,13 @@ public class Player : Creature {
 	public override void Update () {
 		base.Update();
 
-		if (CanDoVerb()) {
-			switch (verbStack[0]) {
-				case Verb.USE:
-					PerformUse();
-					break;
-			}
-		}
+		// if (CanDoVerb()) {
+		// 	switch (verbStack[0]) {
+		// 		case Verb.USE:
+		// 			PerformUse();
+		// 			break;
+		// 	}
+		// }
 
 		ShowHealth();
 	}
@@ -40,7 +41,7 @@ public class Player : Creature {
 
 	}
 
-	private void PerformUse() {
+	protected override void PerformUse() {
 		verbCooldown = 0.8f;
 
 		RaycastHit2D hit = GetBlockingObject(directionStack[0]);
@@ -59,8 +60,7 @@ public class Player : Creature {
 		if (UsingConsumable()) {
 			switch (equippedItem) {
 				case Item.POTION:
-					curHp += Mathf.FloorToInt(maxHp * 0.2f);
-					curHp = Mathf.Max(0, Mathf.Min(curHp, maxHp));
+					Heal(maxHp / 5);
 					break;
 			}
 			RemoveItem(equippedItem.Value);
@@ -70,11 +70,19 @@ public class Player : Creature {
 			if (UsingTool()) {
 				Obstacle obstacle = hit.collider.gameObject.GetComponent<Obstacle>();
 				if (obstacle != null) {
-					obstacle.Damage(equippedItem, this);
+					if (!obstacle.IsHidden) {
+						obstacle.Damage(equippedItem, this);
+					} else {
+						verbCooldown = 0.0f;
+					}
 				} else {
 					Creature creature = hit.collider.gameObject.GetComponent<Creature>();
 					if (creature != null) {
-						creature.Damage(equippedItem, this);
+						if (creature.CurHp > 0) {
+							creature.Damage(equippedItem, this);
+						} else {
+							verbCooldown = 0.0f;
+						}
 					}
 				}
 			} else if (UsingObstacle()) {
@@ -270,8 +278,34 @@ public class Player : Creature {
 		return false;
 	}
 
+	public void Heal(int value) {
+		curHp += Mathf.FloorToInt(value);
+		curHp = Mathf.Max(0, Mathf.Min(curHp, maxHp));
+	}
+
 	private void ShowHealth() {
 		float height = healthBarRect.sizeDelta.y;
 		healthBarRect.sizeDelta = new Vector2(healthBarWidth * (curHp * 0.1f), height);
+	}
+
+	public override void Damage(Item? equippedItem, Player player) {
+		base.Damage(equippedItem, player);
+
+
+		if (CurHp <= 0) {
+			ScoreUtil.SetScore();
+
+			audioSource.clip = SingletonFactory.GetInstance<PrefabUtil>().humanDeathClip;
+			audioSource.Play();
+			
+			Invoke("LoadTitleScreen", 0.8f);
+		} else {
+			audioSource.clip = SingletonFactory.GetInstance<PrefabUtil>().humanDamageClip;
+			audioSource.Play();
+		}
+	}
+
+	private void LoadTitleScreen() {
+		SceneManager.LoadScene("TitleScreen");
 	}
 }
